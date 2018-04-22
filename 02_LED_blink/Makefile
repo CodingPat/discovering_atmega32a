@@ -8,9 +8,11 @@
 ##########------------------------------------------------------##########
 
 MCU   = atmega32
-AVR_MCU = m32
+AVR_MCU = m32A
 F_CPU = 1000000UL  
 BAUD  = 19200
+#for linux users, DEVICE=/dev/tty? - use lsusb command
+#for windows users, open device manager to determine com port
 DEVICE = com3
 
 ## A directory for common include files and the simple USART library.
