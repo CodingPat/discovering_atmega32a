@@ -1,12 +1,12 @@
+#include "usart.h"
 
-
-void USART_Init(fosc,baud)
+void USART_init(int fosc,int baud)
 {
 	
-	unsigned int ubrr	
+	unsigned int ubrr;	
 
 	/*Set baud rate */
-	ubrr=fosc/16/baud-1
+	ubrr=fosc/16/baud-1;
 	UBRR0H = (unsigned char)(ubrr>>8);
 	UBRR0L = (unsigned char)(ubrr);
 	
