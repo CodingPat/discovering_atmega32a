@@ -1,0 +1,67 @@
+   1               		.file	"main.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               		.section	.text.startup,"ax",@progbits
+  11               	.global	main
+  13               	main:
+  14               	.LFB6:
+  15               		.file 1 "main.c"
+   1:main.c        ****                                                        /* Blinker Demo */
+   2:main.c        **** 
+   3:main.c        **** // ------- Preamble -------- //
+   4:main.c        **** #include <avr/io.h>                        /* Defines pins, ports, etc */
+   5:main.c        **** #include <util/delay.h>                     /* Functions to waste time */
+   6:main.c        **** #include "../lib/usart.h"
+   7:main.c        **** 
+   8:main.c        **** #define FOSC 1000000
+   9:main.c        **** #define BAUD 19200
+  10:main.c        **** 
+  11:main.c        **** int main(void) {
+  16               		.loc 1 11 0
+  17               		.cfi_startproc
+  18               	/* prologue: function */
+  19               	/* frame size = 0 */
+  20               	/* stack size = 0 */
+  21               	.L__stack_usage = 0
+  12:main.c        **** 	
+  13:main.c        **** 
+  14:main.c        **** 	USART_init(FOSC,BAUD);
+  22               		.loc 1 14 0
+  23 0000 60E0      		ldi r22,0
+  24 0002 7BE4      		ldi r23,lo8(75)
+  25 0004 80E4      		ldi r24,lo8(64)
+  26 0006 92E4      		ldi r25,lo8(66)
+  27 0008 0E94 0000 		call USART_init
+  28               	.LVL0:
+  29               	.L2:
+  15:main.c        **** 								   
+  16:main.c        ****   // ------ Event loop ------ //
+  17:main.c        ****   while (1) {
+  18:main.c        **** 
+  19:main.c        ****     // do nothing
+  20:main.c        ****     
+  21:main.c        ****   }                                                  /* End event loop */
+  30               		.loc 1 21 0 discriminator 1
+  31 000c 00C0      		rjmp .L2
+  32               		.cfi_endproc
+  33               	.LFE6:
+  35               		.text
+  36               	.Letext0:
+  37               		.file 2 "../lib/usart.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 main.c
+     /tmp/cckgxb50.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cckgxb50.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cckgxb50.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cckgxb50.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cckgxb50.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cckgxb50.s:13     .text.startup:0000000000000000 main
+
+UNDEFINED SYMBOLS
+USART_init
