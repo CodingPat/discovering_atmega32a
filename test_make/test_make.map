@@ -1,7 +1,11 @@
 Membre d'archive inclu pour satisfaire la référence par fichier (symbole)
 
+/usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_divmodhi4.o)
+                              ../toolbox/usart.o (__divmodhi4)
 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
                               /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/crtatmega32a.o (exit)
+/usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_udivmodhi4.o)
+                              /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_divmodhi4.o) (__udivmodhi4)
 
 Sections d'entrée éliminées
 
@@ -10,6 +14,34 @@ Sections d'entrée éliminées
  .text          0x0000000000000000        0x0 LED_on.o
  .data          0x0000000000000000        0x0 LED_on.o
  .bss           0x0000000000000000        0x0 LED_on.o
+ .text          0x0000000000000000       0x24 ../toolbox/usart.o
+ .data          0x0000000000000000        0x0 ../toolbox/usart.o
+ .bss           0x0000000000000000        0x0 ../toolbox/usart.o
+ .debug_info    0x0000000000000000       0xb0 ../toolbox/usart.o
+ .debug_abbrev  0x0000000000000000       0x6d ../toolbox/usart.o
+ .debug_loc     0x0000000000000000       0x4c ../toolbox/usart.o
+ .debug_aranges
+                0x0000000000000000       0x20 ../toolbox/usart.o
+ .debug_line    0x0000000000000000       0x79 ../toolbox/usart.o
+ .debug_str     0x0000000000000000      0x14e ../toolbox/usart.o
+ .comment       0x0000000000000000       0x12 ../toolbox/usart.o
+ .debug_frame   0x0000000000000000       0x24 ../toolbox/usart.o
+ .text          0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_divmodhi4.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_divmodhi4.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_divmodhi4.o)
+ .text.libgcc.mul
+                0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_divmodhi4.o)
+ .text.libgcc.div
+                0x0000000000000000       0x28 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_divmodhi4.o)
+ .text.libgcc   0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_divmodhi4.o)
+ .text.libgcc.prologue
+                0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_divmodhi4.o)
+ .text.libgcc.builtins
+                0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_divmodhi4.o)
+ .text.libgcc.fmul
+                0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_divmodhi4.o)
+ .text.libgcc.fixed
+                0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_divmodhi4.o)
  .text          0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
  .data          0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
  .bss           0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
@@ -26,6 +58,22 @@ Sections d'entrée éliminées
                 0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.fixed
                 0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
+ .text          0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_udivmodhi4.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_udivmodhi4.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_udivmodhi4.o)
+ .text.libgcc.mul
+                0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_udivmodhi4.o)
+ .text.libgcc.div
+                0x0000000000000000       0x28 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_udivmodhi4.o)
+ .text.libgcc   0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_udivmodhi4.o)
+ .text.libgcc.prologue
+                0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_udivmodhi4.o)
+ .text.libgcc.builtins
+                0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_udivmodhi4.o)
+ .text.libgcc.fmul
+                0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_udivmodhi4.o)
+ .text.libgcc.fixed
+                0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_udivmodhi4.o)
 
 Configuration mémoire
 
@@ -43,6 +91,7 @@ Script de l'éditeurs de liens and table de projection mémoire
 
 LOAD /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/crtatmega32a.o
 LOAD LED_on.o
+LOAD ../toolbox/usart.o
 START GROUP
 LOAD /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a
 LOAD /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/libm.a
@@ -400,5 +449,5 @@ END GROUP
 
 .debug_macro
  *(.debug_macro)
-OUTPUT(01_LED_on.elf elf32-avr)
+OUTPUT(test_make.elf elf32-avr)
 LOAD linker stubs
