@@ -29,6 +29,55 @@ PROGRAMMER_TYPE = avrisp
 # extra arguments to avrdude: baud rate, chip type, -F flag, etc.
 PROGRAMMER_ARGS = -p $(AVR_MCU) -P $(DEVICE) -b $(BAUD)
 
+#######################################################
+## Targets you can call to compile 
+######################################################
+
+all: $(TARGET).hex 
+
+debug:
+	@echo
+	@echo "MCU, F_CPU, BAUD: "  $(MCU), $(F_CPU), $(BAUD)
+	@echo "Source files: "   $(SOURCES)
+	@echo	"Objects : " $(OBJECTS)
+	@echo "Headers : " $(HEADERS)
+	@echo "LDLIBS : " $(LDLIBS)
+
+clean:
+	rm -f $(TARGET).elf $(TARGET).hex $(TARGET).obj \
+	$(TARGET).o $(TARGET).d $(TARGET).eep $(TARGET).lst \
+	$(TARGET).lss $(TARGET).sym $(TARGET).map $(TARGET)~ \
+	$(TARGET).eeprom
+
+
+#######################################################
+## Targets you can call to flash
+######################################################
+
+flash: $(TARGET).hex 
+	$(AVRDUDE) -c $(PROGRAMMER_TYPE) $(PROGRAMMER_ARGS) -U flash:w:$<
+
+flash_eeprom: $(TARGET).eeprom
+	$(AVRDUDE) -c $(PROGRAMMER_TYPE) $(PROGRAMMER_ARGS) -U eeprom:w:$<
+
+avrdude_terminal:
+	$(AVRDUDE) -c $(PROGRAMMER_TYPE) $(PROGRAMMER_ARGS) -nt
+
+
+#######################################################
+## Targets you can call for fuses
+######################################################
+
+## Mega 48, 88, 168, 328 default values
+#LFUSE = 0x62
+#HFUSE = 0xdf
+#EFUSE = 0x00
+
+show_fuses:
+	$(AVRDUDE) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -nv	
+
+
+
 ##########------------------------------------------------------##########
 ##########                  Program Locations                   ##########
 ##########     Won't need to change if they're in your PATH     ##########
@@ -41,12 +90,7 @@ AVRSIZE = avr-size
 AVRDUDE = avrdude
 
 ##########------------------------------------------------------##########
-##########                   Makefile Magic!                    ##########
-##########         Summary:                                     ##########
-##########             We want a .hex file                      ##########
-##########        Compile source files into .elf                ##########
-##########        Convert .elf file into .hex                   ##########
-##########        You shouldn't need to edit below.             ##########
+##########      Configuration of compiler / linker              ##########
 ##########------------------------------------------------------##########
 
 ## The name of your project (without the .c)
@@ -61,10 +105,6 @@ TARGET = $(lastword $(subst /, ,$(CURDIR)))
 SOURCES=$(wildcard *.c $(LIBTOOLS)/*.c)
 OBJECTS=$(SOURCES:.c=.o)
 HEADERS=$(SOURCES:.c=.h)
-
-$(info SOURCES = $(SOURCES))
-$(info OBJECTS= $(OBJECTS))
-$(info HEADERS= $(HEADERS))
 
 ## Compilation options, type man avr-gcc if you're curious.
 TARGET_ARCH = -mmcu=$(MCU)
@@ -103,45 +143,6 @@ $(TARGET).elf: $(OBJECTS)
 ## These targets don't have files named after them
 .PHONY: all disassemble disasm eeprom size clean squeaky_clean flash fuses
 
-all: $(TARGET).hex 
-
-debug:
-	@echo
-	@echo "Source files:"   $(SOURCES)
-	@echo "MCU, F_CPU, BAUD:"  $(MCU), $(F_CPU), $(BAUD)
-	@echo	
-
-clean:
-	rm -f $(TARGET).elf $(TARGET).hex $(TARGET).obj \
-	$(TARGET).o $(TARGET).d $(TARGET).eep $(TARGET).lst \
-	$(TARGET).lss $(TARGET).sym $(TARGET).map $(TARGET)~ \
-	$(TARGET).eeprom
 
 
-##########------------------------------------------------------##########
-##########              Programmer-specific details             ##########
-##########           Flashing code to AVR using avrdude         ##########
-##########------------------------------------------------------##########
-
-flash: $(TARGET).hex 
-	$(AVRDUDE) -c $(PROGRAMMER_TYPE) $(PROGRAMMER_ARGS) -U flash:w:$<
-
-flash_eeprom: $(TARGET).eeprom
-	$(AVRDUDE) -c $(PROGRAMMER_TYPE) $(PROGRAMMER_ARGS) -U eeprom:w:$<
-
-avrdude_terminal:
-	$(AVRDUDE) -c $(PROGRAMMER_TYPE) $(PROGRAMMER_ARGS) -nt
-
-
-##########------------------------------------------------------##########
-##########       Fuse settings and suitable defaults            ##########
-##########------------------------------------------------------##########
-
-## Mega 48, 88, 168, 328 default values
-#LFUSE = 0x62
-#HFUSE = 0xdf
-#EFUSE = 0x00
-
-show_fuses:
-	$(AVRDUDE) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -nv	
 
