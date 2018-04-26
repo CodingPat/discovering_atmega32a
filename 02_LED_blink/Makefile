@@ -1,3 +1,5 @@
+
+### MODEL OF MAKEFILE
 ### ADAPTED FROM BOOK : MAKE AVR PROGRAMMING
 ### ALL CREDITS DUE TO ELLIOT WILLIAMS
 
@@ -8,28 +10,28 @@
 ##########------------------------------------------------------##########
 
 MCU   = atmega32
-AVR_MCU = m32A
-F_CPU = 1000000UL  
+AVR_MCU = m32
+F_CPU = 1000000  
 BAUD  = 19200
-#for linux users, DEVICE=/dev/tty? - use lsusb command
-#for windows users, open device manager to determine com port
-DEVICE = com3
+##for linux users, DEVICE=/dev/ttyS? - use lsusb command
+DEVICE=/dev/ttyS0
+##for windows users, open device manager to determine com port
+# DEVICE = com3
 
-## A directory for common include files and the simple USART library.
-## If you move either the current folder or the Library folder, you'll 
-##  need to change this path to match.
-#LIBDIR = ../../AVR-Programming-Library
-LIBDIR = ../../lib
+## A directory for common code (usart.c, ...).
+LIBTOOLS = ../toolbox
 
 ##########------------------------------------------------------##########
 ##########                 Programmer Defaults                  ##########
 ##########          Set up once, then forget about it           ##########
-##########        (Can override.  See bottom of file.)          ##########
 ##########------------------------------------------------------##########
 
 PROGRAMMER_TYPE = avrisp
 # extra arguments to avrdude: baud rate, chip type, -F flag, etc.
-PROGRAMMER_ARGS = 	-p $(AVR_MCU) -P $(DEVICE) -b $(BAUD) -F 
+PROGRAMMER_ARGS = -p $(AVR_MCU) -P $(DEVICE) -b $(BAUD)
+
+
+
 
 ##########------------------------------------------------------##########
 ##########                  Program Locations                   ##########
@@ -43,29 +45,25 @@ AVRSIZE = avr-size
 AVRDUDE = avrdude
 
 ##########------------------------------------------------------##########
-##########                   Makefile Magic!                    ##########
-##########         Summary:                                     ##########
-##########             We want a .hex file                      ##########
-##########        Compile source files into .elf                ##########
-##########        Convert .elf file into .hex                   ##########
-##########        You shouldn't need to edit below.             ##########
+##########      Configuration of compiler / linker              ##########
 ##########------------------------------------------------------##########
 
 ## The name of your project (without the .c)
-# TARGET = blinkLED
+# TARGET = 
 ## Or name it automatically after the enclosing directory
 TARGET = $(lastword $(subst /, ,$(CURDIR)))
 
+
 # Object files: will find all .c/.h files in current directory
-#  and in LIBDIR.  If you have any other (sub-)directories with code,
+#  and in LIBTOOLS.  If you have any other (sub-)directories with code,
 #  you can add them in to SOURCES below in the wildcard statement.
-# SOURCES=$(wildcard *.c $(LIBDIR)/*.c)
-SOURCES=$(wildcard *.c)
+SOURCES=$(wildcard *.c $(LIBTOOLS)/*.c)
 OBJECTS=$(SOURCES:.c=.o)
 HEADERS=$(SOURCES:.c=.h)
 
 ## Compilation options, type man avr-gcc if you're curious.
-CPPFLAGS = -DF_CPU=$(F_CPU) -I. -I$(LIBDIR)
+TARGET_ARCH = -mmcu=$(MCU)
+CPPFLAGS = -I. -I$(LIBTOOLS)
 CFLAGS = -Os -g -std=gnu99 -Wall
 ## Use short (8-bit) data types 
 CFLAGS += -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums 
@@ -78,7 +76,7 @@ LDFLAGS += -Wl,--gc-sections
 ## LDFLAGS += -Wl,--relax
 ## LDFLAGS += -Wl,-u,vfprintf -lprintf_flt -lm  ## for floating-point printf
 ## LDFLAGS += -Wl,-u,vfprintf -lprintf_min      ## for smaller printf
-TARGET_ARCH = -mmcu=$(MCU)
+
 
 ## Explicit pattern rules:
 ##  To make .o files from .c files 
@@ -100,13 +98,22 @@ $(TARGET).elf: $(OBJECTS)
 ## These targets don't have files named after them
 .PHONY: all disassemble disasm eeprom size clean squeaky_clean flash fuses
 
+
+
+
+#######################################################
+## Targets you can call to compile 
+######################################################
+
 all: $(TARGET).hex 
 
 debug:
 	@echo
-	@echo "Source files:"   $(SOURCES)
-	@echo "MCU, F_CPU, BAUD:"  $(MCU), $(F_CPU), $(BAUD)
-	@echo	
+	@echo "MCU, F_CPU, BAUD: "  $(MCU), $(F_CPU), $(BAUD)
+	@echo "Source files: "   $(SOURCES)
+	@echo	"Objects : " $(OBJECTS)
+	@echo "Headers : " $(HEADERS)
+	@echo "LDLIBS : " $(LDLIBS)
 
 clean:
 	rm -f $(TARGET).elf $(TARGET).hex $(TARGET).obj \
@@ -115,10 +122,9 @@ clean:
 	$(TARGET).eeprom
 
 
-##########------------------------------------------------------##########
-##########              Programmer-specific details             ##########
-##########           Flashing code to AVR using avrdude         ##########
-##########------------------------------------------------------##########
+#######################################################
+## Targets you can call to flash
+######################################################
 
 flash: $(TARGET).hex 
 	$(AVRDUDE) -c $(PROGRAMMER_TYPE) $(PROGRAMMER_ARGS) -U flash:w:$<
@@ -130,15 +136,19 @@ avrdude_terminal:
 	$(AVRDUDE) -c $(PROGRAMMER_TYPE) $(PROGRAMMER_ARGS) -nt
 
 
-##########------------------------------------------------------##########
-##########       Fuse settings and suitable defaults            ##########
-##########------------------------------------------------------##########
+#######################################################
+## Targets you can call for fuses
+######################################################
 
 ## Mega 48, 88, 168, 328 default values
 #LFUSE = 0x62
 #HFUSE = 0xdf
 #EFUSE = 0x00
 
+## Mega32A default values
+#LFUSE = 0xE1
+#HFUSE = 0x99
+#EFUSE = 0xFF
+
 show_fuses:
 	$(AVRDUDE) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -nv	
-

@@ -9,13 +9,14 @@
 ##########    Check these every time you start a new project    ##########
 ##########------------------------------------------------------##########
 
-MCU   = atmega32a
-AVR_MCU = m32A
+MCU   = atmega32
+AVR_MCU = m32
 F_CPU = 1000000  
 BAUD  = 19200
-#for linux users, DEVICE=/dev/tty? - use lsusb command
-#for windows users, open device manager to determine com port
-DEVICE = com3
+##for linux users, DEVICE=/dev/ttyS? - use lsusb command
+DEVICE=/dev/ttyS0
+##for windows users, open device manager to determine com port
+# DEVICE = com3
 
 ## A directory for common code (usart.c, ...).
 LIBTOOLS = ../toolbox
@@ -29,52 +30,6 @@ PROGRAMMER_TYPE = avrisp
 # extra arguments to avrdude: baud rate, chip type, -F flag, etc.
 PROGRAMMER_ARGS = -p $(AVR_MCU) -P $(DEVICE) -b $(BAUD)
 
-#######################################################
-## Targets you can call to compile 
-######################################################
-
-all: $(TARGET).hex 
-
-debug:
-	@echo
-	@echo "MCU, F_CPU, BAUD: "  $(MCU), $(F_CPU), $(BAUD)
-	@echo "Source files: "   $(SOURCES)
-	@echo	"Objects : " $(OBJECTS)
-	@echo "Headers : " $(HEADERS)
-	@echo "LDLIBS : " $(LDLIBS)
-
-clean:
-	rm -f $(TARGET).elf $(TARGET).hex $(TARGET).obj \
-	$(TARGET).o $(TARGET).d $(TARGET).eep $(TARGET).lst \
-	$(TARGET).lss $(TARGET).sym $(TARGET).map $(TARGET)~ \
-	$(TARGET).eeprom
-
-
-#######################################################
-## Targets you can call to flash
-######################################################
-
-flash: $(TARGET).hex 
-	$(AVRDUDE) -c $(PROGRAMMER_TYPE) $(PROGRAMMER_ARGS) -U flash:w:$<
-
-flash_eeprom: $(TARGET).eeprom
-	$(AVRDUDE) -c $(PROGRAMMER_TYPE) $(PROGRAMMER_ARGS) -U eeprom:w:$<
-
-avrdude_terminal:
-	$(AVRDUDE) -c $(PROGRAMMER_TYPE) $(PROGRAMMER_ARGS) -nt
-
-
-#######################################################
-## Targets you can call for fuses
-######################################################
-
-## Mega 48, 88, 168, 328 default values
-#LFUSE = 0x62
-#HFUSE = 0xdf
-#EFUSE = 0x00
-
-show_fuses:
-	$(AVRDUDE) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -nv	
 
 
 
@@ -146,3 +101,54 @@ $(TARGET).elf: $(OBJECTS)
 
 
 
+#######################################################
+## Targets you can call to compile 
+######################################################
+
+all: $(TARGET).hex 
+
+debug:
+	@echo
+	@echo "MCU, F_CPU, BAUD: "  $(MCU), $(F_CPU), $(BAUD)
+	@echo "Source files: "   $(SOURCES)
+	@echo	"Objects : " $(OBJECTS)
+	@echo "Headers : " $(HEADERS)
+	@echo "LDLIBS : " $(LDLIBS)
+
+clean:
+	rm -f $(TARGET).elf $(TARGET).hex $(TARGET).obj \
+	$(TARGET).o $(TARGET).d $(TARGET).eep $(TARGET).lst \
+	$(TARGET).lss $(TARGET).sym $(TARGET).map $(TARGET)~ \
+	$(TARGET).eeprom
+
+
+#######################################################
+## Targets you can call to flash
+######################################################
+
+flash: $(TARGET).hex 
+	$(AVRDUDE) -c $(PROGRAMMER_TYPE) $(PROGRAMMER_ARGS) -U flash:w:$<
+
+flash_eeprom: $(TARGET).eeprom
+	$(AVRDUDE) -c $(PROGRAMMER_TYPE) $(PROGRAMMER_ARGS) -U eeprom:w:$<
+
+avrdude_terminal:
+	$(AVRDUDE) -c $(PROGRAMMER_TYPE) $(PROGRAMMER_ARGS) -nt
+
+
+#######################################################
+## Targets you can call for fuses
+######################################################
+
+## Mega 48, 88, 168, 328 default values
+#LFUSE = 0x62
+#HFUSE = 0xdf
+#EFUSE = 0x00
+
+## Mega32A default values
+#LFUSE = 0xE1
+#HFUSE = 0x99
+#EFUSE = 0xFF
+
+show_fuses:
+	$(AVRDUDE) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -nv	

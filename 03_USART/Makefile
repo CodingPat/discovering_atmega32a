@@ -9,13 +9,14 @@
 ##########    Check these every time you start a new project    ##########
 ##########------------------------------------------------------##########
 
-MCU   = atmega32a
-AVR_MCU = m32A
+MCU   = atmega32
+AVR_MCU = m32
 F_CPU = 1000000  
 BAUD  = 19200
-#for linux users, DEVICE=/dev/tty? - use lsusb command
-#for windows users, open device manager to determine com port
-DEVICE = com3
+##for linux users, DEVICE=/dev/ttyS? - use lsusb command
+DEVICE=/dev/ttyS0
+##for windows users, open device manager to determine com port
+# DEVICE = com3
 
 ## A directory for common code (usart.c, ...).
 LIBTOOLS = ../toolbox
@@ -29,6 +30,9 @@ PROGRAMMER_TYPE = avrisp
 # extra arguments to avrdude: baud rate, chip type, -F flag, etc.
 PROGRAMMER_ARGS = -p $(AVR_MCU) -P $(DEVICE) -b $(BAUD)
 
+
+
+
 ##########------------------------------------------------------##########
 ##########                  Program Locations                   ##########
 ##########     Won't need to change if they're in your PATH     ##########
@@ -41,12 +45,7 @@ AVRSIZE = avr-size
 AVRDUDE = avrdude
 
 ##########------------------------------------------------------##########
-##########                   Makefile Magic!                    ##########
-##########         Summary:                                     ##########
-##########             We want a .hex file                      ##########
-##########        Compile source files into .elf                ##########
-##########        Convert .elf file into .hex                   ##########
-##########        You shouldn't need to edit below.             ##########
+##########      Configuration of compiler / linker              ##########
 ##########------------------------------------------------------##########
 
 ## The name of your project (without the .c)
@@ -99,6 +98,13 @@ $(TARGET).elf: $(OBJECTS)
 ## These targets don't have files named after them
 .PHONY: all disassemble disasm eeprom size clean squeaky_clean flash fuses
 
+
+
+
+#######################################################
+## Targets you can call to compile 
+######################################################
+
 all: $(TARGET).hex 
 
 debug:
@@ -116,10 +122,9 @@ clean:
 	$(TARGET).eeprom
 
 
-##########------------------------------------------------------##########
-##########              Programmer-specific details             ##########
-##########           Flashing code to AVR using avrdude         ##########
-##########------------------------------------------------------##########
+#######################################################
+## Targets you can call to flash
+######################################################
 
 flash: $(TARGET).hex 
 	$(AVRDUDE) -c $(PROGRAMMER_TYPE) $(PROGRAMMER_ARGS) -U flash:w:$<
@@ -131,15 +136,19 @@ avrdude_terminal:
 	$(AVRDUDE) -c $(PROGRAMMER_TYPE) $(PROGRAMMER_ARGS) -nt
 
 
-##########------------------------------------------------------##########
-##########       Fuse settings and suitable defaults            ##########
-##########------------------------------------------------------##########
+#######################################################
+## Targets you can call for fuses
+######################################################
 
 ## Mega 48, 88, 168, 328 default values
 #LFUSE = 0x62
 #HFUSE = 0xdf
 #EFUSE = 0x00
 
+## Mega32A default values
+#LFUSE = 0xE1
+#HFUSE = 0x99
+#EFUSE = 0xFF
+
 show_fuses:
 	$(AVRDUDE) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -nv	
-
