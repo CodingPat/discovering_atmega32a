@@ -135,6 +135,11 @@ flash_eeprom: $(TARGET).eeprom
 avrdude_terminal:
 	$(AVRDUDE) -c $(PROGRAMMER_TYPE) $(PROGRAMMER_ARGS) -nt
 
+#######################################################
+## Targets you can call to check the connection
+######################################################
+check:
+	$(AVRDUDE) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -nv	
 
 #######################################################
 ## Targets you can call for fuses
@@ -150,5 +155,4 @@ avrdude_terminal:
 #HFUSE = 0x99
 #EFUSE = 0xFF
 
-show_fuses:
-	$(AVRDUDE) -c $(PROGRAMMER_TYPE) -p $(MCU) $(PROGRAMMER_ARGS) -nv	
+
