@@ -1,11 +1,9 @@
-/**
- * \file
- *
- * \brief UART Interrupt example
- *
+/*****************************************
+  * UART Interrupt example
+/*****************************************
  * Copyright (C) 2016 Atmel Corporation. All rights reserved.
  *
- * \page License
+ * 
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -41,12 +39,15 @@
  */
 
 
-#include "avr/io.h" /* Defines pins, ports, etc */
-#include "avr/interrupt.h"
+
+
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include "uart_interrupt.h"
+
 #define FOSC 1000000 // Clock Speed
 #define BAUD 4800
 #define MYUBRR FOSC/16/BAUD-1
-
 
 
 /* UART Buffer Defines */
@@ -73,37 +74,39 @@ static unsigned char UART_TxBuf[UART_TX_BUFFER_SIZE];
 static volatile unsigned char UART_TxHead;
 static volatile unsigned char UART_TxTail;
 
-/* Prototypes */
-void InitUART(unsigned char MYUBRR);
-unsigned char ReceiveByte(void);
-void TransmitByte(unsigned char data);
 
 int main(void)
 {
 	/* Set the baudrate to 9800 bps using internal 8MHz RC Oscillator */
 	InitUART(MYUBRR);
+	/*enable interrupts */
+	sei();
 	
-	#if __GNUC__
-		sei();
-	#else
-		_SEI();
-	#endif
+	TransmitByte("H");
+	TransmitByte("e");
+	TransmitByte("l");
+	TransmitByte("l");
+	TransmitByte("o");
 
-	for(;;) {
+
+
+
+	while(1) {
 		/* Echo the received character */
 		TransmitByte(ReceiveByte());
 	}
+
 	return 0;
 }
 
 
-void InitUART(unsigned char MYUBRR)
+void InitUART(unsigned char ubrr)
 {
 	unsigned char x;
 
 	/* Set the baud rate */
-	UBRRH = (unsigned char)(MYUBRR>>8);
-	UBRRL = (unsigned char)MYUBRR;
+	UBRRH = (unsigned char)(ubrr>>8);
+	UBRRL = (unsigned char)ubrr;
 	/* Enable UART receiver and transmitter and enable interrupt mode*/
 	UCSRB = ((1<<RXEN) | (1<<TXEN) | (1<<RXCIE));
 	/* Set frame format: 8data */
@@ -186,4 +189,6 @@ void TransmitByte(unsigned char data)
 	/* Enable UDRE interrupt */
 	UCSRB |= (1<<UDRIE);
 }
+
+
 
