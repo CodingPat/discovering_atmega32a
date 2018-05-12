@@ -1,15 +1,17 @@
-/*#########################################
-    Source code from atmega32A datasheet
-  #########################################
+/*#############################################################
+    UART communication - Source code from atmega32A datasheet
+    (polling method)
+  #############################################################
 */
+
 
 #ifndef _AVR_IO_H
 #include <avr/io.h>                        /* Defines pins, ports, etc */
 #endif
 
-#include "uart.h"
+#include "../toolbox/uart_polling.h"
 
-void UART_init( unsigned int ubrr)
+void UART_polling_init( unsigned int ubrr)
 {
 	/*Set baud rate */
 	UBRRH = (unsigned char)(ubrr>>8);
@@ -20,7 +22,7 @@ void UART_init( unsigned int ubrr)
 	UCSRC = (1<<URSEL)|(3<<UCSZ0);
 }
 
-void UART_transmitByte( unsigned char data )
+void UART_polling_transmitByte( unsigned char data )
 {
 	/* Wait for empty transmit buffer */
 	while ( !( UCSRA & (1<<UDRE)) )
@@ -30,7 +32,7 @@ void UART_transmitByte( unsigned char data )
 }
 
 
-unsigned char UART_receiveByte( void )
+unsigned char UART_polling_receiveByte( void )
 {
 	/* Wait for data to be received */
 	while ( !(UCSRA & (1<<RXC)) )
@@ -39,10 +41,10 @@ unsigned char UART_receiveByte( void )
 	return UDR;
 }
 
-void UART_printString(const char myString[]) {
+void UART_polling_printString(const char myString[]) {
   uint8_t i = 0;
   while (myString[i]) {
-    UART_transmitByte(myString[i]);
+    UART_polling_transmitByte(myString[i]);
     i++;
   }
 }
