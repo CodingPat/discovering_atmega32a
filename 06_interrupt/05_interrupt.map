@@ -4,8 +4,6 @@ Membre d'archive inclu pour satisfaire la référence par fichier (symbole)
                               ../toolbox/uart_interrupt.o (__udivmodsi4)
 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
                               /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/crtatmega32.o (exit)
-/usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
-                              int0.o (__do_copy_data)
 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
                               ../toolbox/uart_interrupt.o (__do_clear_bss)
 
@@ -16,11 +14,8 @@ Sections d'entrée éliminées
  .text          0x0000000000000000        0x0 int0.o
  .data          0x0000000000000000        0x0 int0.o
  .bss           0x0000000000000000        0x0 int0.o
- .text.init     0x0000000000000000       0x30 int0.o
- .rodata.str1.1
-                0x0000000000000000        0x2 int0.o
  .text.EXT_INT0_vect
-                0x0000000000000000       0x64 int0.o
+                0x0000000000000000       0x16 int0.o
  .text          0x0000000000000000        0x0 ../toolbox/uart_interrupt.o
  .data          0x0000000000000000        0x0 ../toolbox/uart_interrupt.o
  .bss           0x0000000000000000        0x0 ../toolbox/uart_interrupt.o
@@ -78,22 +73,6 @@ Sections d'entrée éliminées
                 0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
  .text.libgcc.fixed
                 0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
- .text          0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
- .data          0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
- .bss           0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
- .text.libgcc.mul
-                0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
- .text.libgcc.div
-                0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
- .text.libgcc   0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
- .text.libgcc.prologue
-                0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
- .text.libgcc.builtins
-                0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
- .text.libgcc.fmul
-                0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
- .text.libgcc.fixed
-                0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
  .text          0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
  .data          0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
  .bss           0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
@@ -233,7 +212,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x150
+.text           0x0000000000000000      0x13e
  *(.vectors)
  .vectors       0x0000000000000000       0x54 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/crtatmega32.o
                 0x0000000000000000                __vectors
@@ -274,10 +253,8 @@ END GROUP
  *(.init3)
  *(.init3)
  *(.init4)
- .init4         0x0000000000000060       0x16 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_copy_data.o)
-                0x0000000000000060                __do_copy_data
- .init4         0x0000000000000076       0x10 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
-                0x0000000000000076                __do_clear_bss
+ .init4         0x0000000000000060       0x10 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
+                0x0000000000000060                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
@@ -288,45 +265,47 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x0000000000000086        0x8 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/crtatmega32.o
+ .init9         0x0000000000000070        0x8 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/crtatmega32.o
  *(.init9)
  *(.text)
- .text          0x000000000000008e        0x4 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/crtatmega32.o
-                0x000000000000008e                __vector_1
-                0x000000000000008e                __vector_12
-                0x000000000000008e                __bad_interrupt
-                0x000000000000008e                __vector_6
-                0x000000000000008e                __vector_3
-                0x000000000000008e                __vector_11
-                0x000000000000008e                __vector_17
-                0x000000000000008e                __vector_19
-                0x000000000000008e                __vector_7
-                0x000000000000008e                __vector_5
-                0x000000000000008e                __vector_4
-                0x000000000000008e                __vector_9
-                0x000000000000008e                __vector_2
-                0x000000000000008e                __vector_15
-                0x000000000000008e                __vector_8
-                0x000000000000008e                __vector_10
-                0x000000000000008e                __vector_16
-                0x000000000000008e                __vector_18
-                0x000000000000008e                __vector_20
-                0x0000000000000092                . = ALIGN (0x2)
+ .text          0x0000000000000078        0x4 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/crtatmega32.o
+                0x0000000000000078                __vector_1
+                0x0000000000000078                __vector_12
+                0x0000000000000078                __bad_interrupt
+                0x0000000000000078                __vector_6
+                0x0000000000000078                __vector_3
+                0x0000000000000078                __vector_11
+                0x0000000000000078                __vector_17
+                0x0000000000000078                __vector_19
+                0x0000000000000078                __vector_7
+                0x0000000000000078                __vector_5
+                0x0000000000000078                __vector_4
+                0x0000000000000078                __vector_9
+                0x0000000000000078                __vector_2
+                0x0000000000000078                __vector_15
+                0x0000000000000078                __vector_8
+                0x0000000000000078                __vector_10
+                0x0000000000000078                __vector_16
+                0x0000000000000078                __vector_18
+                0x0000000000000078                __vector_20
+                0x000000000000007c                . = ALIGN (0x2)
  *(.text.*)
+ .text.init     0x000000000000007c       0x1c int0.o
+                0x000000000000007c                init
  .text.startup.main
-                0x0000000000000092       0x32 int0.o
-                0x0000000000000092                main
+                0x0000000000000098       0x1a int0.o
+                0x0000000000000098                main
  .text.__vector_13
-                0x00000000000000c4       0x3e ../toolbox/uart_interrupt.o
-                0x00000000000000c4                __vector_13
+                0x00000000000000b2       0x3e ../toolbox/uart_interrupt.o
+                0x00000000000000b2                __vector_13
  .text.__vector_14
-                0x0000000000000102       0x4a ../toolbox/uart_interrupt.o
-                0x0000000000000102                __vector_14
-                0x000000000000014c                . = ALIGN (0x2)
+                0x00000000000000f0       0x4a ../toolbox/uart_interrupt.o
+                0x00000000000000f0                __vector_14
+                0x000000000000013a                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000000000000014c        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
-                0x000000000000014c                exit
-                0x000000000000014c                _exit
+ .fini9         0x000000000000013a        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
+                0x000000000000013a                exit
+                0x000000000000013a                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -345,12 +324,12 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000000000000014c        0x4 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
+ .fini0         0x000000000000013a        0x4 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
  *(.fini0)
-                0x0000000000000150                _etext = .
+                0x000000000000013e                _etext = .
 
-.data           0x0000000000800060        0x0 address de chargement 0x0000000000000150
-                0x0000000000800060                PROVIDE (__data_start, .)
+.data           0x0000000000800060        0x0 address de chargement 0x000000000000013e
+                [!provide]                        PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
  *(.rodata)
@@ -358,7 +337,7 @@ END GROUP
  *(.gnu.linkonce.d*)
                 0x0000000000800060                . = ALIGN (0x2)
                 0x0000000000800060                _edata = .
-                0x0000000000800060                PROVIDE (__data_end, .)
+                [!provide]                        PROVIDE (__data_end, .)
 
 .bss            0x0000000000800060       0x14
                 0x0000000000800060                PROVIDE (__bss_start, .)
@@ -378,8 +357,8 @@ END GROUP
                 0x000000000080006c        0x8 ../toolbox/uart_interrupt.o
  *(COMMON)
                 0x0000000000800074                PROVIDE (__bss_end, .)
-                0x0000000000000150                __data_load_start = LOADADDR (.data)
-                0x0000000000000150                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000000000000013e                __data_load_start = LOADADDR (.data)
+                0x000000000000013e                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0000000000800074        0x0
                 [!provide]                        PROVIDE (__noinit_start, .)
@@ -407,11 +386,11 @@ END GROUP
 .user_signatures
  *(.user_signatures*)
 
-.stab           0x0000000000000000      0x9b4
+.stab           0x0000000000000000      0xa14
  *(.stab)
- .stab          0x0000000000000000      0x534 int0.o
-                                        0x66c (taille avant relaxe)
- .stab          0x0000000000000534      0x480 ../toolbox/uart_interrupt.o
+ .stab          0x0000000000000000      0x594 int0.o
+                                        0x5dc (taille avant relaxe)
+ .stab          0x0000000000000594      0x480 ../toolbox/uart_interrupt.o
                                         0x8f4 (taille avant relaxe)
 
 .stabstr        0x0000000000000000      0xebb
