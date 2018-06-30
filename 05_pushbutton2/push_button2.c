@@ -1,5 +1,12 @@
+//===========================================================
+//
+// Press button to toggle led on/off
+//
+//===========================================================
+
+
 #include <avr/io.h>
-#include <util/delay.h>
+
 
 #define LED PD6
 #define BUTTON PD2
