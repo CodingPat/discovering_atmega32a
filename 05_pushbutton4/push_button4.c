@@ -18,8 +18,7 @@
 #define BUTTON PD2
 #define F_CPU 1000000 // 1Mhz
 #define DEBOUNCE_TIME 500 // 500us
-#define WAIT_TIME 1000 //2*100ms = 0,5hz flashing
-
+#define WAIT_TIME 1000 //2*1000ms = 0,5hz flashing
 
 
 void init(){
@@ -32,7 +31,7 @@ void init(){
 
 	MCUCR|=2;//xxxxxx10 = falling edge
 	
-	GICR|=(1<<INT0);// INT0=bit 6 of GICR
+	GICR|=(1<<INT0);// INT0=bit 6 of GICR, defined via <avr/io.h>
 	sei();
 }
 
