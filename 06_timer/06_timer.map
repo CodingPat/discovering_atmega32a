@@ -14,7 +14,7 @@ Sections d'entrée éliminées
  .text          0x0000000000000000        0x0 06_timer.o
  .data          0x0000000000000000        0x0 06_timer.o
  .bss           0x0000000000000000        0x0 06_timer.o
- .text.init     0x0000000000000000       0x3a 06_timer.o
+ .text.init     0x0000000000000000       0x3c 06_timer.o
  .text          0x0000000000000000        0x0 ../toolbox/uart_interrupt.o
  .data          0x0000000000000000        0x0 ../toolbox/uart_interrupt.o
  .bss           0x0000000000000000        0x0 ../toolbox/uart_interrupt.o
@@ -386,7 +386,7 @@ END GROUP
 .stab           0x0000000000000000      0x948
  *(.stab)
  .stab          0x0000000000000000      0x4c8 06_timer.o
-                                        0x57c (taille avant relaxe)
+                                        0x570 (taille avant relaxe)
  .stab          0x00000000000004c8      0x480 ../toolbox/uart_interrupt.o
                                         0x8f4 (taille avant relaxe)
 

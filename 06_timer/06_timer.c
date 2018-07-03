@@ -10,8 +10,7 @@ void init(){
 	DDRD|=(1<<PD5);//OC1A	
 
 	//Frequence 1hz
-	OCR1AL=487;
-	OCR1AH=0;
+	OCR1A=487;
 	TCCR1B|=(1<<CS12)|(1<<CS10);
 	TCCR1B&=~(1<<CS11);
 	//CTC mode
