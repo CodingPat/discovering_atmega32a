@@ -16,8 +16,8 @@ void init(){
 	//TCCR1A|=(1<<COM1B0);//pin OC1B
 	
 	//prescale clock /1024
-	TCCR1B|=(1<<CS10);
-	TCCR1B|=(1<<CS12);
+	TCCR1B|=((1<<CS10)|(1<<CS12));
+	
 	
 	// counter top value
 	OCR1A=487;
