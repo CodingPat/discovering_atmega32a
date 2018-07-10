@@ -8,6 +8,10 @@ Membre d'archive inclu pour satisfaire la référence par fichier (symbole)
                               Z80_nop.o (__do_copy_data)
 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
                               Z80_nop.o (__do_clear_bss)
+/usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/libc.a(utoa_ncheck.o)
+                              Z80_nop.o (__utoa_ncheck)
+/usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/libc.a(strrev.o)
+                              /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/libc.a(utoa_ncheck.o) (strrev)
 
 Sections d'entrée éliminées
 
@@ -19,7 +23,6 @@ Sections d'entrée éliminées
  .bss.nr_loops  0x0000000000000000        0x1 Z80_nop.o
  .data.max_loops
                 0x0000000000000000        0x1 Z80_nop.o
- .bss.do_read   0x0000000000000000        0x1 Z80_nop.o
  .text          0x0000000000000000        0x0 ../toolbox/uart_interrupt.o
  .data          0x0000000000000000        0x0 ../toolbox/uart_interrupt.o
  .bss           0x0000000000000000        0x0 ../toolbox/uart_interrupt.o
@@ -101,6 +104,12 @@ Sections d'entrée éliminées
                 0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
  .text.libgcc.fixed
                 0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_clear_bss.o)
+ .text          0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/libc.a(utoa_ncheck.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/libc.a(utoa_ncheck.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/libc.a(utoa_ncheck.o)
+ .text          0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/libc.a(strrev.o)
+ .data          0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/libc.a(strrev.o)
+ .bss           0x0000000000000000        0x0 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/libc.a(strrev.o)
 
 Configuration mémoire
 
@@ -224,7 +233,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x2ca
+.text           0x0000000000000000      0x348
  *(.vectors)
  .vectors       0x0000000000000000       0x54 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/crtatmega32.o
                 0x0000000000000000                __vectors
@@ -315,34 +324,41 @@ END GROUP
  .text.reset    0x00000000000000d0       0x18 Z80_nop.o
                 0x00000000000000d0                reset
  .text.__vector_1
-                0x00000000000000e8       0x4c Z80_nop.o
+                0x00000000000000e8       0x24 Z80_nop.o
                 0x00000000000000e8                __vector_1
  .text.startup.main
-                0x0000000000000134       0x4a Z80_nop.o
-                0x0000000000000134                main
+                0x000000000000010c       0x9c Z80_nop.o
+                0x000000000000010c                main
  .text.UART_init
-                0x000000000000017e       0x34 ../toolbox/uart_interrupt.o
-                0x000000000000017e                UART_init
+                0x00000000000001a8       0x34 ../toolbox/uart_interrupt.o
+                0x00000000000001a8                UART_init
  .text.__vector_13
-                0x00000000000001b2       0x3e ../toolbox/uart_interrupt.o
-                0x00000000000001b2                __vector_13
+                0x00000000000001dc       0x3e ../toolbox/uart_interrupt.o
+                0x00000000000001dc                __vector_13
  .text.__vector_14
-                0x00000000000001f0       0x4a ../toolbox/uart_interrupt.o
-                0x00000000000001f0                __vector_14
+                0x000000000000021a       0x4a ../toolbox/uart_interrupt.o
+                0x000000000000021a                __vector_14
  .text.UART_transmitByte
-                0x000000000000023a       0x22 ../toolbox/uart_interrupt.o
-                0x000000000000023a                UART_transmitByte
+                0x0000000000000264       0x22 ../toolbox/uart_interrupt.o
+                0x0000000000000264                UART_transmitByte
  .text.UART_printString
-                0x000000000000025c       0x26 ../toolbox/uart_interrupt.o
-                0x000000000000025c                UART_printString
+                0x0000000000000286       0x26 ../toolbox/uart_interrupt.o
+                0x0000000000000286                UART_printString
  .text.libgcc.div
-                0x0000000000000282       0x44 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_udivmodsi4.o)
-                0x0000000000000282                __udivmodsi4
-                0x00000000000002c6                . = ALIGN (0x2)
+                0x00000000000002ac       0x44 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_udivmodsi4.o)
+                0x00000000000002ac                __udivmodsi4
+ .text.avr-libc
+                0x00000000000002f0       0x34 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/libc.a(utoa_ncheck.o)
+                0x00000000000002f0                __utoa_ncheck
+                0x00000000000002f2                __utoa_common
+ .text.avr-libc
+                0x0000000000000324       0x20 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/libc.a(strrev.o)
+                0x0000000000000324                strrev
+                0x0000000000000344                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000000000002c6        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
-                0x00000000000002c6                exit
-                0x00000000000002c6                _exit
+ .fini9         0x0000000000000344        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
+                0x0000000000000344                exit
+                0x0000000000000344                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -361,28 +377,33 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000000000002c6        0x4 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
+ .fini0         0x0000000000000344        0x4 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
  *(.fini0)
-                0x00000000000002ca                _etext = .
+                0x0000000000000348                _etext = .
 
-.data           0x0000000000800060       0x32 address de chargement 0x00000000000002ca
+.data           0x0000000000800060       0x30 address de chargement 0x0000000000000348
                 0x0000000000800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
  *(.rodata)
  *(.rodata*)
  .rodata.str1.1
-                0x0000000000800060       0x31 Z80_nop.o
+                0x0000000000800060       0x30 Z80_nop.o
+                                         0x33 (taille avant relaxe)
  *(.gnu.linkonce.d*)
-                0x0000000000800092                . = ALIGN (0x2)
- *fill*         0x0000000000800091        0x1 
-                0x0000000000800092                _edata = .
-                0x0000000000800092                PROVIDE (__data_end, .)
+                0x0000000000800090                . = ALIGN (0x2)
+                0x0000000000800090                _edata = .
+                0x0000000000800090                PROVIDE (__data_end, .)
 
-.bss            0x0000000000800092       0x14
-                0x0000000000800092                PROVIDE (__bss_start, .)
+.bss            0x0000000000800090       0x16
+                0x0000000000800090                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
+ .bss.address_lo
+                0x0000000000800090        0x1 Z80_nop.o
+                0x0000000000800090                address_lo
+ .bss.do_read   0x0000000000800091        0x1 Z80_nop.o
+                0x0000000000800091                do_read
  .bss.UART_TxTail
                 0x0000000000800092        0x1 ../toolbox/uart_interrupt.o
  .bss.UART_TxHead
@@ -397,8 +418,8 @@ END GROUP
                 0x000000000080009e        0x8 ../toolbox/uart_interrupt.o
  *(COMMON)
                 0x00000000008000a6                PROVIDE (__bss_end, .)
-                0x00000000000002ca                __data_load_start = LOADADDR (.data)
-                0x00000000000002fc                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000000000000348                __data_load_start = LOADADDR (.data)
+                0x0000000000000378                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00000000008000a6        0x0
                 [!provide]                        PROVIDE (__noinit_start, .)
@@ -426,15 +447,15 @@ END GROUP
 .user_signatures
  *(.user_signatures*)
 
-.stab           0x0000000000000000      0xe94
+.stab           0x0000000000000000      0xf48
  *(.stab)
- .stab          0x0000000000000000      0x7f8 Z80_nop.o
- .stab          0x00000000000007f8      0x69c ../toolbox/uart_interrupt.o
+ .stab          0x0000000000000000      0x8ac Z80_nop.o
+ .stab          0x00000000000008ac      0x69c ../toolbox/uart_interrupt.o
                                         0x8f4 (taille avant relaxe)
 
-.stabstr        0x0000000000000000     0x1026
+.stabstr        0x0000000000000000     0x1077
  *(.stabstr)
- .stabstr       0x0000000000000000     0x1026 Z80_nop.o
+ .stabstr       0x0000000000000000     0x1077 Z80_nop.o
 
 .stab.excl
  *(.stab.excl)

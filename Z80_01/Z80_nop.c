@@ -20,9 +20,11 @@
 
 #define INITTIME 10000
 
+//global variables
 uint8_t do_read=0;
 uint8_t max_loops=50;
 uint8_t nr_loops=0;
+uint8_t address_lo=0;
 
 
 void init_ports(){
@@ -95,7 +97,8 @@ void reset(){
 
 // Interrupt /RD signal
 ISR(INT0_vect){
-	UART_printString("@R\r\n");
+	address_lo=PORTA;	
+	do_read=1;
 	
 }
 
@@ -105,6 +108,8 @@ ISR(INT0_vect){
 int main(){
 	//NOP opcode
 	uint8_t opcode=0x00;	
+		
+	char address_lo_string[3];//hex value = 2 symbols + \0
 
 	init_ports();	
 	PORTB=opcode;
@@ -126,7 +131,20 @@ int main(){
 
 	
 		
-	while(1){}
+	while(1){
+		
+		if (do_read){
+			UART_printString("R2@");
+			
+			//adress=PORTA
+			address_lo=PORTA;
+			UART_printString(utoa(address_lo,address_lo_string,16));
+			UART_printString("\r\n");
+			do_read=0;
+		}
+		_delay_ms(400);//give some time
+	
+	}
 
 	return 0;
 	
