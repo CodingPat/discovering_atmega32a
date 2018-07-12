@@ -31,6 +31,7 @@ void init_ports(){
 	
 	// address bus (low byte) - input mode
 	DDRA=0x00;
+	
 
 	// data bus = PB port - output mode
 	DDRB=0xFF;
@@ -97,7 +98,7 @@ void reset(){
 
 // Interrupt /RD signal
 ISR(INT0_vect){
-	address_lo=PORTA;	
+	address_lo=PINA;	
 	do_read=1;
 	
 }
@@ -108,39 +109,37 @@ ISR(INT0_vect){
 int main(){
 	//NOP opcode
 	uint8_t opcode=0x00;	
-		
+	uint8_t count=0;		
 	char address_lo_string[3];//hex value = 2 symbols + \0
+	char count_string[3];
 
-	init_ports();	
+	init_ports();
+	UART_init(CPU_F,BAUD);
+	_delay_ms(2000);//give some time to UART to get ready
+	
 	PORTB=opcode;
 	
-	UART_init(CPU_F,BAUD);	
-	
-	_delay_ms(2000);//give some time to write to UART
-	UART_printString("Resetting Z80 ....\r\n");
-	
-	
-		
 	init_clock();
-	reset();
-	UART_printString("Providing NOP's ....\r\n");
-	
-		
 	init_read();
 
+	UART_printString("Resetting Z80 ....\r\n");
+	reset();
 
 	
+	UART_printString("Providing nop's ....\r\n");
 		
 	while(1){
 		
 		if (do_read){
+			count+=1;
 			UART_printString("R2@");
-			
-			//adress=PORTA
-			address_lo=PORTA;
 			UART_printString(utoa(address_lo,address_lo_string,16));
+			UART_printString(" count ");
+			UART_printString(utoa(count,count_string,16));
 			UART_printString("\r\n");
+			
 			do_read=0;
+	
 		}
 		_delay_ms(400);//give some time
 	
