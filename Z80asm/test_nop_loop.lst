@@ -1,0 +1,14 @@
+# File test_nop_loop.asm
+0000			ORG 0x0000 
+0000			 
+0000			; test code 
+0000			 
+0000 c3 04 00		.START: JP .LOOP 
+0003 00					NOP 
+0004 00			.LOOP:	NOP 
+0005 00					NOP 
+0006 c3 00 00				JP .START 
+0009			 
+0009			 
+# End of file test_nop_loop.asm
+0009

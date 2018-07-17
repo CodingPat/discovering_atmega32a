@@ -39,10 +39,13 @@
 
 
 //global variables
-volatile uint8_t do_read=0;
-volatile uint8_t do_write=0;
 volatile uint8_t address_lo=0;
 volatile uint8_t data_bus=0;
+uint8_t ram[]={0xc3, 0x04, 0x00, 0x00, 0x00, 0x00, 0xc3, 0x00, 0x00};
+	
+char address_lo_string[3];//hex value = 2 symbols + \0
+uint8_t mem_value=0;	
+char mem_value_string[3];
 
 void init_ports(){
 	
@@ -51,6 +54,7 @@ void init_ports(){
 	
 
 	// data bus = PB port - default mode=input mode
+	// (safe if conflicting signals on bus)
 	DDRB=0x00;
 
 	// signals
@@ -122,32 +126,58 @@ void reset(){
 
 // Interrupt /RD signal
 ISR(INT0_vect){
+	address_lo=PINA;	
+	
 	DDRB=0xFF; //ouput mode	
 	PORTC&=~(1<<P_WAIT);//let Z80 wait until data bus ready
-	
-	address_lo=PINA;	
-	do_read=1;
+
+	mem_value=ram[address_lo];
+	PORTB=mem_value;
+			
+	PORTC|=(1<<P_WAIT);//data ready for Z80
+	//give some time to Z80 to read, wait until /RD signal high  
+	//while(!((PIND&(1<<P_RD)))){}; 
+						
+	DDRB=0x00;//default (safe)mode = input
+
+	UART_printString("Read@ 0x");
+	UART_printString(utoa(address_lo,address_lo_string,16));
+	UART_printString(" value 0x");
+	UART_printString(utoa(mem_value,mem_value_string,16));
+	UART_printString("\r\n");
 	
 }
 
 // Interrupt /WR signal
 ISR(INT1_vect){
-	DDRB=0x00; //input mode	
-	PORTC&=~(1<<P_WAIT);//let Z80 wait until data bus ready
-	
+	DDRB=0x00; //first thing = set safe mode = input mode
 	address_lo=PINA;
-	data_bus= PINB;	
-	do_write=1;
+	data_bus= PINB;		
+	//PORTC&=~(1<<P_WAIT);//let Z80 wait until data bus ready
+			
+	mem_value=data_bus;
+	ram[address_lo]=mem_value;
+			
+	PORTC|=(1<<P_WAIT);//data ready for Z80
+	//give some time to Z80 to write, wait until /WR signal high  
+	//while(!((PIND&(1<<P_WR)))){}; 	
+
+	DDRB=0x00;//default (safe)mode = input
+
+
+	UART_printString("Write@ 0x");
+	UART_printString(utoa(address_lo,address_lo_string,16));
+	UART_printString(" value 0x");
+	UART_printString(utoa(mem_value,mem_value_string,16));
+	UART_printString("\r\n");
+			
+	
 	
 }
 
 
 
 int main(){
-	int ram[256];	
-	char address_lo_string[3];//hex value = 2 symbols + \0
-	uint8_t mem_value=0;	
-	char mem_value_string[3];
 
 	init_ports();
 	UART_init(F_CPU,BAUD);
@@ -165,41 +195,6 @@ int main(){
 		
 	while(1){
 		
-		if (do_read){
-			mem_value=ram[address_lo];
-			PORTB=mem_value;
-			PORTC|=(1<<P_WAIT);//data ready for Z80
-			_delay_ms(ACCESS_TIME);// give time to Z80 to access data bus			
-			DDRB=0x00;//default mode = input
-
-			UART_printString("Read@ 0x");
-			UART_printString(utoa(address_lo,address_lo_string,16));
-			UART_printString(" value 0x");
-			UART_printString(utoa(mem_value,mem_value_string,16));
-			UART_printString("\r\n");
-						
-			do_read=0;
-		}
-
-		if (do_write){
-			mem_value=data_bus;
-			ram[address_lo]=mem_value;
-			PORTC|=(1<<P_WAIT);//data ready for Z80
-			_delay_ms(ACCESS_TIME);// give time to Z80 to access data bus
-			DDRB=0x00;//default mode = input
-
-
-			UART_printString("Write@ 0x");
-			UART_printString(utoa(address_lo,address_lo_string,16));
-			UART_printString(" value 0x");
-			UART_printString(utoa(mem_value,mem_value_string,16));
-			UART_printString("\r\n");
-			
-			
-			do_write=0;
-		}
-		
-
 	
 	}
 
